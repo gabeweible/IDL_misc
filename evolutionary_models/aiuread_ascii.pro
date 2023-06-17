@@ -96,6 +96,7 @@ pro aiuread_ascii, fn, a, NCOL=ncol, QUIET=quiet, COMMENT=comment, COMM_CHAR=com
       reads,t,c
       a(i*ncol:(i+1)*ncol-1)=c
    endfor
+   
    close,fu
    free_lun,fu
 end

@@ -118,9 +118,9 @@ simdata(18).age  = 4000.
 
 endif
 
-if not keyword_set(mdusty) then save, simdata, filename='~/Dropbox/Astrophysics/Research/CMF/isochrones.dat' else save, simdata, filename='~/Dropbox/Astrophysics/Research/CMF/dusty-isochrones.dat'
+if not keyword_set(mdusty) then save, simdata, filename=pwd+'isochrones.dat' else save, simdata, filename=pwd+'dusty-isochrones.dat'
 
-endif else if not keyword_set(mdusty) then restore, '~/Dropbox/Astrophysics/Research/CMF/isochrones.dat' else restore, '~/Dropbox/Astrophysics/Research/CMF/dusty-isochrones.dat'
+endif else if not keyword_set(mdusty) then restore, pwd+'isochrones.dat' else restore, pwd+'dusty-isochrones.dat'
 
 
 ;filter='Mh'
@@ -147,20 +147,20 @@ if not keyword_set(reload) then begin
 
 
 
-if not keyword_set(mdusty) then if filter eq 'Mk' then writefits,'~/Dropbox/Astrophysics/Research/CMF/cond-matrix-congrid-K-50.fits',matrix 
-if not keyword_set(mdusty) then if filter eq 'Ml' then  writefits,'~/Dropbox/Astrophysics/Research/CMF/cond-matrix-congrid-L-50.fits',matrix
-if not keyword_set(mdusty) then if filter eq 'Mh' then  writefits,'~/Dropbox/Astrophysics/Research/CMF/cond-matrix-congrid-H-50.fits',matrix
+if not keyword_set(mdusty) then if filter eq 'Mk' then writefits,pwd+'cond-matrix-congrid-K-50.fits',matrix 
+if not keyword_set(mdusty) then if filter eq 'Ml' then  writefits,pwd+'cond-matrix-congrid-L-50.fits',matrix
+if not keyword_set(mdusty) then if filter eq 'Mh' then  writefits,pwd+'cond-matrix-congrid-H-50.fits',matrix
 
-if keyword_set(mdusty) then if filter eq 'Mk' then writefits,'~/Dropbox/Astrophysics/Research/CMF/dusty-matrix-congrid-K-50-nan.fits',matrix 
-if keyword_set(mdusty) then if filter eq 'Ml' then writefits,'~/Dropbox/Astrophysics/Research/CMF/dusty-matrix-congrid-L-50-nan.fits',matrix
-if keyword_set(mdusty) then if filter eq 'Mh' then writefits,'~/Dropbox/Astrophysics/Research/CMF/dusty-matrix-congrid-H-50-nan.fits',matrix
+if keyword_set(mdusty) then if filter eq 'Mk' then writefits,pwd+'dusty-matrix-congrid-K-50-nan.fits',matrix 
+if keyword_set(mdusty) then if filter eq 'Ml' then writefits,pwd+'dusty-matrix-congrid-L-50-nan.fits',matrix
+if keyword_set(mdusty) then if filter eq 'Mh' then writefits,pwd+'dusty-matrix-congrid-H-50-nan.fits',matrix
 
 
 endif else begin ;reloading makes things go much faster
 
-if not keyword_set(mdusty) then if filter eq 'Mk' then matrix=readfits('~/Dropbox/Astrophysics/Research/CMF/cond-matrix-congrid-K-50.fits',/silent) else matrix=readfits('~/Dropbox/Astrophysics/Research/CMF/cond-matrix-congrid-L-50.fits',/silent)
+if not keyword_set(mdusty) then if filter eq 'Mk' then matrix=readfits(pwd+'cond-matrix-congrid-K-50.fits',/silent) else matrix=readfits(pwd+'cond-matrix-congrid-L-50.fits',/silent)
 
-if keyword_set(mdusty) then if filter eq 'Mk' then matrix=readfits('~/Dropbox/Astrophysics/Research/CMF/dusty-matrix-congrid-K-50-nan.fits',/silent) else matrix=readfits('~/Dropbox/Astrophysics/Research/CMF/dusty-matrix-congrid-L-50-nan.fits',/silent)
+if keyword_set(mdusty) then if filter eq 'Mk' then matrix=readfits(pwd+'dusty-matrix-congrid-K-50-nan.fits',/silent) else matrix=readfits(pwd+'dusty-matrix-congrid-L-50-nan.fits',/silent)
 
 endelse
 
