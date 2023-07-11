@@ -14,7 +14,7 @@ function simbd_dist, mass=mass, age=age, sigage=sigage,d=d,sigd=sigd,filter=filt
 
 iage=age & id=d	;store inputs as different names
 
-smass=mass*0.0009543	;solar mass units
+smass=mass*0.000954588	;solar mass units
 
 ;n_trials = 10000.	;the more trials the better samples the distribution, but also the longer the routine will take. 
 
@@ -58,12 +58,12 @@ for kkk=0, n_trials do begin
 	;include efficiency
 
 	if mass le 13. then begin
-	;go to flux units
-	flux=10.^(mag/2.5)
-	fluxeff=(acceff)^(4.0) ;acceff ~ dE/dS ~ T
-	;go back to magnitudes
-	magdiff=-2.5*ALOG10(fluxeff)
-	mag=mag+magdiff
+		;go to flux units
+		flux=10.^(mag/2.5)
+		fluxeff=(acceff)^(4.0) ;acceff ~ dE/dS ~ T
+		;go back to magnitudes
+		magdiff=-2.5*ALOG10(fluxeff)
+		mag=mag+magdiff
 	endif
 
 	mags=[mags,mag]	;store the magnitude in the array
