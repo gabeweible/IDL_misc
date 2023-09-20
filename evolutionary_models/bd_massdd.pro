@@ -1,4 +1,6 @@
-function bd_massdd,objmag=objmag,sigmag=sigmag,filter=filter,age=age,sigage=sigage,d=d,sigd=sigd,min_eff=min_eff,minmass=minmass,maxmass=maxmass,stepmass=stepmass,n_trials=n_trials,mdusty=mdusty;,acc_eff=acc_efficiency,acc_eff=acc_eff_sigma
+function bd_massdd,objmag=objmag,sigmag=sigmag,filter=filter,age=age,sigage=sigage,
+d=d,sigd=sigd,min_eff=min_eff,minmass=minmass,maxmass=maxmass,stepmass=stepmass,
+n_trials=n_trials,mdusty=mdusty;,acc_eff=acc_efficiency,acc_eff=acc_eff_sigma
 
 ;first step: generate a photometric probability density distribution for a range of masses
 if not keyword_set(minmass) then minmass=0.
