@@ -2,7 +2,8 @@ pro tvage_plot,output_dir=output_dir,model_name=model_name
 
 cgcleanup
 
-cgps_open,'/Users/kevinwagner/Desktop/T_v_Age_'+model_name+'.ps',xsize=8,ysize=10,/portrait
+cgps_open,'/Users/gabeweible/Desktop/T_v_Age_'+model_name+'.ps',xsize=8,ysize=10,$
+/portrait
 
 ;MWC 758
 
@@ -15,8 +16,9 @@ agecerr=2
 
 plotsym,0,0.01,/fill
 
-cgplot,[agec],[tc],err_xlow=[agecerr],err_xhigh=[agecerr],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,title=textoidl('T_{eff} vs. Age'),xtitle='Age (Myr)',ytitle=textoidl('T_{eff} (K)'),$
-	xrange=[.9,220],/xlog,yrange=[0,2700],charsize=2.5
+cgplot,[agec],[tc],err_xlow=[agecerr],err_xhigh=[agecerr],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,title=textoidl('T_{eff} vs. Age'),xtitle='Age (Myr)',$
+ytitle=textoidl('T_{eff} (K)'),xrange=[.9,220],/xlog,yrange=[0,2700],charsize=2.5
 
 
 alt_clr='grey'
@@ -25,7 +27,7 @@ alt_clr='grey'
 
 folder='cold_start'
 str='model_seq'
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'.0010',n,t,l,r,ts,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'.0010',n,t,l,r,ts,teff
 ;t is in yr, so let's go to Myr
 t=t/1e6
 ;M is in Msun, so let's go to MJup
@@ -35,7 +37,7 @@ cgtext,140,220-mark_offset,textoidl('1 M_J'),color='dodger blue',size=1
 
 folder='cold_start'
 str='model_seq'
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'.0020',n,t,l,r,ts,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'.0020',n,t,l,r,ts,teff
 ;t is in yr, so let's go to Myr
 t=t/1e6
 ;M is in Msun, so let's go to MJup
@@ -44,7 +46,7 @@ cgtext,140,300-mark_offset,textoidl('2 M_J'),color='dodger blue',size=1
 
 folder='cold_start'
 str='model_seq'
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'.0040',n,t,l,r,ts,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'.0040',n,t,l,r,ts,teff
 ;t is in yr, so let's go to Myr
 t=t/1e6
 ;M is in Msun, so let's go to MJup
@@ -54,7 +56,7 @@ cgtext,140,390-mark_offset,textoidl('4 M_J'),color='dodger blue',size=1
 
 folder='cold_start'
 str='model_seq'
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'.0080',n,t,l,r,ts,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'.0080',n,t,l,r,ts,teff
 ;t is in yr, so let's go to Myr
 t=t/1e6
 ;M is in Msun, so let's go to MJup
@@ -63,7 +65,7 @@ cgtext,132,512-mark_offset,textoidl('8 M_J'),color='dodger blue',size=1
 
 ;folder='cold_start'
 ;str='model_seq'
-;readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'.0080',n,t,l,r,ts,teff
+;readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'.0080',n,t,l,r,ts,teff
 ;t is in yr, so let's go to Myr
 ;t=t/1e6
 ;M is in Msun, so let's go to MJup
@@ -73,7 +75,7 @@ cgtext,132,512-mark_offset,textoidl('8 M_J'),color='dodger blue',size=1
 
 folder='cold_start'
 str='model_seq'
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'.0100',n,t,l,r,ts,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'.0100',n,t,l,r,ts,teff
 ;t is in yr, so let's go to Myr
 t=t/1e6
 ;M is in Msun, so let's go to MJup
@@ -96,14 +98,14 @@ str='ames_cond'
 ;str='bt_dusty_agss2009_meta_00'
 
 ;evo tracks
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'_m_0.0005.dat',t,m,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'_m_0.0005.dat',t,m,teff
 ;t is in Gyr, so let's go to Myr
 t=t*1000.
 ;M is in Msun, so let's go to MJup
 m=m/0.00095
 cgoplot,t,teff,color='crimson',linestyle=2
 cgtext,1.2,650,textoidl('0.5 M_J'),color='crimson',size=1
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'_m_0.001.dat',t,m,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'_m_0.001.dat',t,m,teff
 ;t is in Gyr, so let's go to Myr
 t=t*1000.
 ;M is in Msun, so let's go to MJup
@@ -111,7 +113,7 @@ m=m/0.00095
 cgoplot,t,teff,color='crimson',linestyle=2
 cgtext,1.2,950,textoidl('1 M_J'),color='crimson',size=1
 
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'_m_0.002.dat',t,m,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'_m_0.002.dat',t,m,teff
 ;t is in Gyr, so let's go to Myr
 t=t*1000.
 ;M is in Msun, so let's go to MJup
@@ -119,7 +121,7 @@ m=m/0.00095
 cgoplot,t,teff,color='crimson',linestyle=2
 cgtext,1.2,1300,textoidl('2 M_J'),color='crimson',size=1
 
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'_m_0.004.dat',t,m,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'_m_0.004.dat',t,m,teff
 ;t is in Gyr, so let's go to Myr
 t=t*1000.
 ;M is in Msun, so let's go to MJup
@@ -127,7 +129,7 @@ m=m/0.00095
 cgoplot,t,teff,color='crimson',linestyle=2
 cgtext,1.2,1700,textoidl('4 M_J'),color='crimson',size=1
 
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'_m_0.008.dat',t,m,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'_m_0.008.dat',t,m,teff
 ;t is in Gyr, so let's go to Myr
 t=t*1000.
 ;M is in Msun, so let's go to MJup
@@ -135,21 +137,21 @@ m=m/0.00095
 cgoplot,t,teff,color='crimson',linestyle=2,thick=8
 cgtext,1.2,2000,textoidl('8 M_J'),color='crimson',size=1
 
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'_m_0.01.dat',t,m,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'_m_0.01.dat',t,m,teff
 ;t is in Gyr, so let's go to Myr
 t=t*1000.
 ;M is in Msun, so let's go to MJup
 m=m/0.00095
 cgoplot,t,teff,color='crimson',linestyle=2
 cgtext,1.2,2220,textoidl('10 M_J'),color='crimson',size=1
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'_m_0.012.dat',t,m,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'_m_0.012.dat',t,m,teff
 ;t is in Gyr, so let's go to Myr
 t=t*1000.
 ;M is in Msun, so let's go to MJup
 m=m/0.00095
 cgoplot,t,teff,color='crimson',linestyle=2
 cgtext,1.2,2300,textoidl('12 M_J'),color='crimson',size=1
-readcol,'/Users/kevinwagner/Downloads/'+folder+'/'+str+'_m_0.02.dat',t,m,teff
+readcol,'/Users/gabeweible/Downloads/'+folder+'/'+str+'_m_0.02.dat',t,m,teff
 ;t is in Gyr, so let's go to Myr
 t=t*1000.
 ;M is in Msun, so let's go to MJup
@@ -192,10 +194,12 @@ tcerrh=30
 clr=alt_clr
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 cgtext,35,950,'HR8799bcde',charsize=1,color=alt_clr
 
@@ -212,10 +216,12 @@ tcerrh=10
 ;clr='purple'
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 
 
@@ -232,10 +238,12 @@ tcerrh=50
 ;clr='purple'
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 
 
@@ -253,10 +261,12 @@ tcerrh=112
 ;clr='crimson'
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 
 cgtext,6,1100,'PDS70bc',charsize=1,color=alt_clr
@@ -275,10 +285,12 @@ tcerrh=216
 ;clr='crimson'
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 
 
@@ -297,10 +309,12 @@ tcerrh=50
 clr=alt_clr
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 cgtext,25,600,'51 Eri b',charsize=1,color=alt_clr
 
@@ -319,10 +333,12 @@ tcerrh=0
 clr=alt_clr
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 cgtext,3,2250,'AB Aur b',charsize=1,color=alt_clr
 
@@ -340,10 +356,12 @@ tcerrh=300
 clr=alt_clr
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 cgtext,15,2400,'HIP 75056Ab',charsize=1,color=alt_clr
 
@@ -362,10 +380,12 @@ tcerrh=150
 clr=alt_clr
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 cgtext,6,1500,'HIP 65426b',charsize=1,color=alt_clr
 
@@ -384,10 +404,12 @@ tcerrh=50
 clr=alt_clr
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 cgtext,12,1800,textoidl('\beta Pic b'),charsize=1,color=alt_clr
 
@@ -405,10 +427,12 @@ tcerrh=250
 clr=alt_clr
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 cgtext,8,880,textoidl('HD 95086b'),charsize=1,color=alt_clr
 
@@ -426,10 +450,12 @@ tcerrh=300
 clr=alt_clr
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 cgtext,50,2000,textoidl('AB Pic b'),charsize=1,color=alt_clr
 
@@ -446,10 +472,12 @@ tcerrh=300
 clr=alt_clr
 
 plotsym,0,1.5,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 plotsym,0,1,/fill
-cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8,color=clr
+cgoplot,[agec],[tc],err_xlow=[agecerrl],err_xhigh=[agecerrh],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8,color=clr
 
 cgtext,50,1750,textoidl('\kappa And b'),charsize=1,color=alt_clr
 
@@ -466,11 +494,12 @@ agecerr=2
 
 plotsym,0,.01,/fill
 
-cgoplot,[agec],[tc],err_xlow=[agecerr],err_xhigh=[agecerr],err_ylow=[tcerrl],err_yhigh=[tcerrh],psym=8
+cgoplot,[agec],[tc],err_xlow=[agecerr],err_xhigh=[agecerr],err_ylow=[tcerrl],$
+err_yhigh=[tcerrh],psym=8
 
 
 
-restore,'/Users/kevinwagner/Desktop/'+output_dir+'/'+model_name+'_1.0RJup_avs_temps.sav'
+restore,'/Users/gabeweible/Desktop/'+output_dir+'/'+model_name+'_1.0RJup_avs_temps.sav'
 ;temps=reverse(temps)
 ;avs=reverse(avs)
 
@@ -486,14 +515,17 @@ temps=temps[uniq(temps)]
 for nn=0,n_elements(avs)-1 do begin
 	;if avs[nn] mod 20 eq 0 then begin
 	tcerrh=temps[nn]-400
-	cgoplot,[agec],[tc],err_xlow=[agecerr],err_xhigh=[agecerr],err_ylow=[tcerrl],err_yhigh=[tcerrh],color='black',err_thick=8
-	if nn eq 0 then cgtext,agec+0.15,temps[nn]+20,textoidl('A_V='+sigfig(avs[nn],2)),charsize=0.9
-	if nn gt 0 then cgtext,agec+0.2,temps[nn]-30,textoidl('A_V='+sigfig(avs[nn],2)),charsize=1
+	cgoplot,[agec],[tc],err_xlow=[agecerr],err_xhigh=[agecerr],err_ylow=[tcerrl],$
+	err_yhigh=[tcerrh],color='black',err_thick=8
+	if nn eq 0 then cgtext,agec+0.15,temps[nn]+20,textoidl('A_V='+sigfig(avs[nn],2)),$
+	charsize=0.9
+	if nn gt 0 then cgtext,agec+0.2,temps[nn]-30,textoidl('A_V='+sigfig(avs[nn],2)),$
+	charsize=1
 	;endif
 endfor
 
 
-restore,'/Users/kevinwagner/Desktop/'+output_dir+'/'+model_name+'_2.0RJup_avs_temps.sav'
+restore,'/Users/gabeweible/Desktop/'+output_dir+'/'+model_name+'_2.0RJup_avs_temps.sav'
 ;temps=reverse(temps)
 ;avs=reverse(avs)
 
@@ -510,9 +542,12 @@ temps=temps[uniq(temps)]
 for nn=1,n_elements(avs)-2 do begin
 	;if avs[nn] mod 20 eq 0 then begin
 	tcerrh=temps[nn]-400
-	cgoplot,[agec],[tc],err_xlow=[agecerr],err_xhigh=[agecerr],err_ylow=[tcerrl],err_yhigh=[tcerrh],color='black',err_thick=8
-	if nn le 2 then cgtext,agec-1.4,temps[nn]-30,textoidl('A_V='+sigfig(avs[nn],2)),charsize=1
-	if nn gt 2 then cgtext,agec-1.5,temps[nn]-30,textoidl('A_V='+sigfig(avs[nn],2)),charsize=1
+	cgoplot,[agec],[tc],err_xlow=[agecerr],err_xhigh=[agecerr],err_ylow=[tcerrl],$
+	err_yhigh=[tcerrh],color='black',err_thick=8
+	if nn le 2 then cgtext,agec-1.4,temps[nn]-30,textoidl('A_V='+sigfig(avs[nn],2)),$
+	charsize=1
+	if nn gt 2 then cgtext,agec-1.5,temps[nn]-30,textoidl('A_V='+sigfig(avs[nn],2)),$
+	charsize=1
 	;endif
 endfor
 	if nn gt 0 then cgtext,agec+0.2,330,textoidl('1 R_{Jup}'),charsize=1.1;,color='dodger blue'
