@@ -9,7 +9,13 @@ if not keyword_set(stepmass) then stepmass=1.
 if not keyword_set(n_trials) then n_trials=1000
 probs=[] & masses=[];where to store the probabilities for each mass bin
 
-for mass=minmass,maxmass,stepmass do begin	
+n_masses = FIX((maxmass-minmass) / stepmass)
+
+for mass_i = 0,n_masses do begin
+
+	mass = minmass + mass_i*stepmass
+
+;for mass=minmass,maxmass,stepmass do begin	
 	;print, 'Testing mass ', mass
 	if not keyword_set(mdusty) then mags=simbd_dist(mass=mass,age=age,sigage=sigage,d=d,sigd=sigd,min_eff=min_eff,n_trials=n_trials,filter=filter)
 	if keyword_set(mdusty) then mags=simbd_dist(mass=mass,age=age,sigage=sigage,d=d,sigd=sigd,min_eff=min_eff,n_trials=n_trials,filter=filter,/mdusty);,
