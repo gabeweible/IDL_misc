@@ -1,0 +1,114 @@
+pro kklip_loop_rdi_final3, kklip_arr=kklip_arr, angsep_arr=angsep_arr, bin_arr=bin_arr
+
+; Strict arrays (square brackets only) and 32-bit integers as default, instead of 16
+compile_opt IDL2
+newline = string(10B)
+
+fwhm=13.0773; M-band
+;lambda_over_D = 11.07 ; px
+coadd=20
+pa_off=0.
+;save_basis=1; start by saving (only necessary as filter, bin change)
+save_basis=0; don't save the basis for "RDI" that's really klip...
+do_dewarp=1; don't dewarp if testing RDI
+
+; this should roughly go fastest to slowest, except for the
+; loop over kklip (which I think is important)
+; I probably should loop over angsep deeper into the nested for loops
+; so that this relatively important parameter may be for quickly varied, as well
+
+kklip_arr=[12, 13, 14, 15]
+angsep_arr=[0.265, 0.267, 0.269, 0.271, 0.273, 0.275, 0.275, 0.277, 0.279, 0.281,$
+	0.283, 0.285, 0.287, 0.289]
+
+bin_type_arr = ['median']
+combine_type_arr = ['median']
+filter_arr = [29., 39., 49., 59.]
+n_ang_arr = [2]
+bin_arr = [5];I should probably try lower coadds as well!
+annmode_inout=[8,34]; nwadi needs 1 extra px on either side?
+anglemax_arr = [34., 36., 38., 40., 42., 44.] ; max. parallactic angle between ref. and science frame
+
+corr_thresh = 0.92
+ct = corr_thresh
+obj='Alcor'
+do_create_basis=1; need a new basis for each frame.
+
+output_path = '/Users/gweible/Library/CloudStorage/OneDrive-UniversityofArizona/research/Alcor/macbook_' +$
+	strcompress(coadd, /r)
+if keyword_set(extra) then output_path += '_'+strcompress(extra, /r)
+
+save, filename=output_path+'/kklip_loop_arrays_rdi_final3.sav',kklip_arr, angsep_arr, filter_arr,$
+	bin_type_arr, combine_type_arr, n_ang_arr, bin_arr
+
+; Alcor cubes
+refcube1 = readfits(output_path+'/processed_right/dith1/Alcor     0.920000_cube_skysub_cen_clean.fits')
+refcube2 = readfits(output_path+'/processed_right/dith2/Alcor     0.920000_cube_skysub_cen_clean.fits')
+just_alcor_refcube = REFORM([REFORM(refcube1, (size(refcube1))[-1]), REFORM(refcube2, (size(refcube2))[-1])],$
+	380,380,(size(refcube1))[3] + (size(refcube2))[3]);
+
+; restore the Alcor cube angles (both nodding positions)
+restore,filename=output_path + '/processed_right/dith1/' + obj + string(ct) +  '_parang_clean.sav'
+just_alcor_ref_angles = angles
+
+restore,filename=output_path + '/processed_right/dith2/' + obj + string(ct) +  '_parang_clean.sav'
+just_alcor_ref_angles = [just_alcor_ref_angles, angles]
+
+; start to loop through parameters, where saving a new basis and binned cubes for
+; for each new sz bin and/or filter size
+
+do_new_binning = 1
+foreach szbin, bin_arr do begin
+
+	do_new_binning = 1
+	
+	foreach bin_type, bin_type_arr do begin
+		do_new_binning=1
+		
+		foreach combine_type, combine_type_arr do begin
+			foreach n_ang, n_ang_arr do begin
+				foreach filter, filter_arr do begin
+				
+					do_new_binning=1; already computed.
+					
+					foreach angsep, angsep_arr do begin
+					
+						foreach anglemax, anglemax_arr do begin
+						
+						foreach k_klip, kklip_arr do begin
+						
+							print, newline, 'running Alcor pipeline in loop for:',newline
+							print, 'szbin = ', string(szbin)
+							print, 'n_ang = ', string(n_ang)
+							print, 'angsep = ', string(angsep)
+							print, 'filter= ', string(filter)
+							print, 'bin_type: ', bin_type
+							print, 'combine_type:', combine_type
+							print, 'k_klip = ', string(k_klip), newline
+							print, 'do_new_binning: ', do_new_binning
+							print, 'do_create_basis: ', do_create_basis, newline
+							
+							alcor_pipeline, pre_inj=0, neg_inj=0, coadd=coadd,$
+								uncert=0, klip=0,use_gauss=0, fs=0, nod='dx_only',$
+								cds='endcds', pre_clean=0, k_klip=k_klip, adi=0,$
+								do_annmode=1, szbin=szbin, angsep=angsep,$
+								bin_type=bin_type, filter=filter, n_ang=n_ang,$
+								pa_off=pa_off,combine_type=combine_type,do_rdi=1,$
+								refcube=just_alcor_refcube,$
+								annmode_inout=annmode_inout,$
+								ref_ang=just_alcor_ref_angles,do_dewarp=do_dewarp,$
+								save_basis=save_basis, anglemax=anglemax,$
+								rdi_extra='final3', extra='rdi_final3',$
+								do_new_binning=do_new_binning, do_create_basis=do_create_basis
+									
+							do_new_binning=0; already made the basis for this loop (only filter, bin, will change it)
+								
+						endforeach; k_klip loop
+						endforeach; anglemax loop
+					endforeach; angsep loop
+				endforeach; filter loop
+			endforeach; nangarr
+		endforeach; combine_type
+	endforeach; bin_type loop
+endforeach;szbin loop
+end
