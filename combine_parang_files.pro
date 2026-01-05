@@ -1,12 +1,10 @@
-PRO combine_parang_files
+PRO combine_parang_files, obj, base_dir, output_dir, nod_min, nod_max
+; Base_dir is where the parang.sav files are
+; output_dir is the full path to output the combined results
 
   ; Define base directory
-  base_dir = '/Users/gweible/OneDrive - University of Arizona/research/Alcor/macbook_5/'
-  output_dir = '/Users/gweible/OneDrive - University of Arizona/research/Alcor/macbook_5/processed_right/'
-  
-  ; Define nod range (assuming nod00 to nod56)
-  nod_min = 0
-  nod_max = 58
+ ; base_dir = '/Users/gweible/OneDrive - University of Arizona/research/Alcor/macbook_5/'
+ ; output_dir = '/Users/gweible/OneDrive - University of Arizona/research/Alcor/macbook_5/processed_right/'
   
   ; Initialize arrays to store combined data
   dith1_angles_combined = []
@@ -26,7 +24,7 @@ PRO combine_parang_files
   for nod = nod_min, nod_max, 2 do begin  ; Even nods only
     
     ; Construct filename
-    filename = string(format='("Alcor_NOD_A_nod", I02, "_parang.sav")', nod)
+    filename = string(format='("*_NOD_A_nod", I02, "_grp00_parang.sav")', nod)
     full_path = base_dir + filename
     
     ; Check if file exists
@@ -78,7 +76,7 @@ PRO combine_parang_files
   for nod = nod_min+1, nod_max, 2 do begin  ; Odd nods only
     
     ; Construct filename
-    filename = string(format='("Alcor_NOD_B_nod", I02, "_parang.sav")', nod)
+   filename = string(format='("*_NOD_B_nod", I02, "_grp00_parang.sav")', nod)
     full_path = base_dir + filename
     
     ; Check if file exists
@@ -135,10 +133,10 @@ PRO combine_parang_files
     if ~file_test(dith1_dir, /directory) then file_mkdir, dith1_dir
     
     ; Save to file
-    dith1_output_file = dith1_dir + 'Alcor_parang.sav'
+    dith1_output_file = dith1_dir + obj + '_parang.sav'
     save, dx_dith1_angles_array, dx_dith1_dits_array, filename=dith1_output_file
-    writefits, 'dith1_dir' + 'Alcor_angles.fits', dx_dith1_angles_array
-    writefits, 'dith1_dir' + 'Alcor_dits.fits', dx_dith1_dits_array
+    writefits, dith1_dir + obj+'_angles.fits', dx_dith1_angles_array
+    writefits, dith1_dir + obj+'_dits.fits', dx_dith1_dits_array
     print, string(format='("✓ Saved dith1 data to: ", A)', dith1_output_file)
     print, string(format='("  - dx_dith1_angles_array length: ", I0)', n_elements(dx_dith1_angles_array))
     print, string(format='("  - dx_dith1_dits_array length: ", I0)', n_elements(dx_dith1_dits_array))
@@ -146,7 +144,6 @@ PRO combine_parang_files
   
   ; Save combined data for dith2
   if nod_count_dith2 gt 0 then begin
-    print, ''
     print, 'Saving dith2 combined data...'
     
     ; Assign to output variable names
@@ -158,10 +155,10 @@ PRO combine_parang_files
     if ~file_test(dith2_dir, /directory) then file_mkdir, dith2_dir
     
     ; Save to file
-    dith2_output_file = dith2_dir + 'Alcor_parang.sav'
+    dith2_output_file = dith2_dir + obj+'_parang.sav'
     save, dx_dith2_angles_array, dx_dith2_dits_array, filename=dith2_output_file
-    writefits, 'dith2_dir' + 'Alcor_angles.fits', dx_dith2_angles_array
-    writefits, 'dith2_dir' + 'Alcor_dits.fits', dx_dith2_dits_array
+    writefits, dith2_dir + obj+'_angles.fits', dx_dith2_angles_array
+    writefits, dith2_dir + obj+'_dits.fits', dx_dith2_dits_array
     print, string(format='("✓ Saved dith2 data to: ", A)', dith2_output_file)
     print, string(format='("  - dx_dith2_angles_array length: ", I0)', n_elements(dx_dith2_angles_array))
     print, string(format='("  - dx_dith2_dits_array length: ", I0)', n_elements(dx_dith2_dits_array))

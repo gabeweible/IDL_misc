@@ -22,47 +22,51 @@ if not keyword_set(save_map) then save_map=0
 
 ; USER INPUT
 ;-----------------------------------------------------------
-fwhm = 12.9034; M-band LMIRCam FWHM with dgvAPP360 (approx.)
+fwhm = 13.382; M-band LMIRCam FWHM with dgvAPP360 (approx.)
 boxehs = fwhm/2. ; source exclusion half-size
 ;nantr = 1000 ; stdev limit for masking remaining bad pixels
 aper_rad = boxehs ; aperture radius for SNR calculation
 
 ; minimum and maximum radii for which to create the SNR map
-r_min = 14 ; px
-r_max = 33 ; px
-dr = 1.0 ; px separation between noise/mean rings
+; 7 seems like the innermost meaningful radius, and 38 is about the max
+; for a total radius of 45 pixels with fwhm/2 left on the outside for the
+; apertures.
+r_min = 0 ; px
+r_max = 170 ; px
+dr = 0.25 ; px separation between noise/mean rings
 
-; Location of Alcor B to mask
-; (vip 81x81 sizing)
-xp_mask = 28
-yp_mask = 58
+;; Location of Alcor B to mask
+;; (vip 91x91 sizing)
+xp_mask = 166
+yp_mask = 191
 
 ; how many azimuthal angles to calculate noise and signal at for each radius?
-n_azimuth = 24
+n_azimuth = 48
 
 ; Image size, HWHM Gaussian PSF for low-pass filtering
-xs = 81 & ys = 81
+xs = 351 & ys = 351
 
-; already low-pass filtered.
-lp_width = 0;1.0;1.0;1.0;1.00
-hp_width = 0;1.25*fwhm;3.0*fwhm;29.0
+; low- or high-pass filter
+lp_width = 0
+hp_width = 0
 
 ; number of sub-dr dithers in either dimension for each aperture
-n_dith_1d = 5
+n_dith_1d = 9
 ;-----------------------------------------------------------
 
 ; Define center points and prepare arrays
 xhs = xs/2.-0.5 & yhs = ys/2.-0.5 ; half-sizes
 
-; Pre-compute radius and angle of source to be masked (Alcor B)
+;; Pre-compute radius and angle of source to be masked (Alcor B)
 rho_mask = sqrt((xhs-xp_mask)^2. + (yhs-yp_mask)^2.)
 theta_mask = acos((xp_mask-xhs) / rho_mask)
 
-output_path = '/Users/gweible/Library/CloudStorage/OneDrive-UniversityofArizona/research/Alcor/macbook_' +$
+output_path = '/Users/gweible/Library/CloudStorage/OneDrive - University of Arizona/research/Alcor/macbook_' +$
   strcompress(coadd, /r)
 if keyword_set(extra) then output_path += '_'+strcompress(extra, /r)
 
-if (type eq 'vip_klip') or (type eq 'vip_annklip') then output_path = '/Users/gweible/OneDrive - University of Arizona/research/Software/VIP/VIP_extras-master/tutorials'; search wherever the VIP files are.
+if (type eq 'vip_klip') or (type eq 'vip_annklip') then output_path = '/Users/gweible/OneDrive - University of Arizona/research/Alcor/VIP'; search wherever the VIP files are.
+if (type eq 'desktop') then output_path = '/Users/gweible/Desktop'
 
 ; File pattern matching - fix for the array error
 if search eq 1 then begin
@@ -76,27 +80,32 @@ if search eq 1 then begin
 	;Alcor_keepnumber_700_filt_0.00000_neg_inj_0_uncert_0_szbin_1_type_mean_comb_type_median_normal_0_peak_thresh_0.960000_stddev_thresh_0.900000_right_adi.fits
 	if type eq 'adi' then begin
 		;patterns = ;[;'Alcor_ct_0.[0-9][0-9][0-9][0-9][0-9][0-9]_filt_0.00000_*_normal_0_right_adi.fits',$
-			patterns =	['Alcor_keepnumber_[0-9][0-9][0-9]_filt_0.00000_*_normal_0_*_right_adi.fits',$
-							'Alcor_keepnumber_[0-9][0-9][0-9][0-9]_filt_0.00000_*_normal_0_*_right_adi.fits']
-		
+		patterns =	['Alcor_keepnumber_[0-9][0-9][0-9]_filt_0.00000_*_normal_0_*_right_adi.fits',$
+						'Alcor_keepnumber_[0-9][0-9][0-9][0-9]_filt_0.00000_*_normal_0_*_right_adi.fits']
+	
 		;patterns = ['Alcor_ct_0.[0-9][0-9][0-9][0-9][0-9][0-9]_filt_*_normal_0_right_adi.fits',$
 		;			'Alcor_ct_0.[0-9][0-9][0-9][0-9][0-9][0-9]_filt_*_normal_1_right_adi.fits']
 	endif
 	
 	if type eq 'vip_klip' then begin
 		
-			patterns =	['ncomp_[0-9]_drot_0.[0-9]_mean_frame.fits',$
-							'ncomp_[0-9]_drot_0.[0-9][0-9]_mean_frame.fits',$
-							'ncomp_[0-9]_drot_0.[0-9][0-9][0-9]_mean_frame.fits']
+		patterns =	['alcor_vip_klip_pcat_*_median_comb.fits']
 		
 	endif
 	
 	if type eq 'vip_annklip' then begin
+	
+		patterns = ['alcor_vip_klip_pcat_drot_*_annular_med_to_mean.fits',$
+					'alcor_vip_klip_pcat_drot_*_annular_med_to_mean_2seg.fits']
 		
-			patterns =	['ncomp_[0-9]_drot_0.[0-9]_mean_annular_frame.fits',$
-							'ncomp_[0-9]_drot_0.[0-9][0-9]_mean_annular_frame.fits',$
-							'ncomp_[0-9]_drot_0.[0-9][0-9][0-9]_mean_annular_frame.fits']
+			;patterns =	['ncomp_[0-9]_drot_0.[0-9]_mean_annular_frame.fits',$
+			;				'ncomp_[0-9]_drot_0.[0-9][0-9]_mean_annular_frame.fits',$
+			;				'ncomp_[0-9]_drot_0.[0-9][0-9][0-9]_mean_annular_frame.fits']
 		
+	endif
+	
+	if type eq 'desktop' then begin
+		patterns = ['ncomp_*.fits']
 	endif
   
   all_files = []
@@ -138,19 +147,6 @@ endfor
 ; Pre-compute all azimuthal angles
 az_angles = findgen(n_azimuth) * 2*!PI / n_azimuth
 
-; Pre-compute normalized Gaussian for low-pass filtering
-if lp_width gt 0 then begin
-	lp_npix = fix(11*lp_width)
-	if ~ODD(lp_npix) then lp_npix += 1
-	PSF = psf_Gaussian(NPIX=lp_npix, FWHM=[lp_width,lp_width], /normalize)
-endif
-
-if hp_width gt 0 then begin
-	hp_npix = fix(11*hp_width)
-	if ~ODD(hp_npix) then hp_npix += 1
-	hp_PSF = psf_Gaussian(NPIX=hp_npix, FWHM=[hp_width, hp_width], /normalize)
-endif
-
 ; Pre-compute coordinate grid once
 xx_grid = rebin(indgen(fix(xs)), fix(xs), fix(ys))
 yy_grid = rebin(reform(indgen(fix(ys)), 1, fix(ys)), fix(xs), fix(ys))
@@ -167,9 +163,11 @@ for filei = 0, n_elements(all_files)-1 do begin
     zimage = readfits_fast(file)
     
     ; High-pass filter
-    if hp_width gt 0 then zimage -= convolve(zimage, hp_PSF)
+    if hp_width gt 0 then zimage -= filter_image(zimage, fwhm=hp_width,$
+    	psf=psf_hp, /all_pixels)
     ; Low-pass filter
-    if lp_width gt 0 then zimage = convolve(temporary(zimage), PSF)
+    if lp_width gt 0 then zimage = filter_image(zimage, fwhm=lp_width,$
+    	psf=psf_lp, /all_pixels)
     
     ; Create SNR image with same dimensions
     SNR_img = fltarr(fix(xs), fix(ys), /nozero)
@@ -177,9 +175,9 @@ for filei = 0, n_elements(all_files)-1 do begin
 	; NOISE IMAGE SETUP
     nimage = zimage
     
-    ; Mask Alcor B in noise image - vectorized
-    mask_indices = where(sqrt((xx_grid - xp_mask)^2 + (yy_grid - yp_mask)^2) le boxehs, mask_count)
-    nimage[mask_indices] = !values.f_nan
+  ;  ; Mask Alcor B in noise image - vectorized
+  ;  mask_indices = where(sqrt((xx_grid - xp_mask)^2 + (yy_grid - yp_mask)^2) le boxehs, mask_count)
+  ;  nimage[mask_indices] = !values.f_nan
     
      ; Convert NaNs to zeros for aperture photometry
     nan_indices = where(finite(zimage) ne 1, nan_count)
@@ -387,7 +385,8 @@ for filei = 0, n_elements(all_files)-1 do begin
     endfor
     
     ; Low-pass filter
-    if lp_width gt 0 then SNR_img = convolve(SNR_img, PSF)
+    if lp_width gt 0 then SNR_img = filter_image(SNR_img, fwhm=lp_width,$
+    	psf=psf_lp, /all_pixels)
     
     ; Find peak SNR
     peak_SNR = max(SNR_img, max_loc)
@@ -404,7 +403,7 @@ for filei = 0, n_elements(all_files)-1 do begin
 endfor
 
 ; Write results to CSV
-if csv eq 1 then WRITE_CSV, strcompress(output_path + '/Alcor_contrast_output_big_' + type + '.csv', /rem), $
+if csv eq 1 then WRITE_CSV, output_path + '/Alcor_contrast_output_big_' + type + '.csv', $
     peak_results, all_files
 
 t_end = systime(/seconds)

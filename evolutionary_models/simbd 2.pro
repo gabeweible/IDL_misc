@@ -1,6 +1,6 @@
 function simbd, mass=mass,age=age,filter=filter, debug=debug, error=error, stp=stp, usepreinterp=usepreinterp,reload=reload,mdusty=mdusty
   
-;
+;mass in solar masses.
 
 
 ; Edited by KW on August 11 2018
@@ -28,7 +28,7 @@ function simbd, mass=mass,age=age,filter=filter, debug=debug, error=error, stp=s
 
 ;mass=mass*0.0009543	;Mj to Msun, commented out because it apepars in simbd_dist
 
-pwd='/Users/gweible/OneDrive - University of Arizona/research/HII1348/big_data/SimBD/'
+pwd='/Users/gweible/Library/CloudStorage/OneDrive-UniversityofArizona/research/HII1348/big_data/SimBD/'
 
 if keyword_set(mdusty) then datadir='simbd.data.dusty/' else datadir='simbd.data/'
 
@@ -314,7 +314,6 @@ endelse
 ; OUTPUT RESULT
 ; ===============================================================================================
 if keyword_set(stp) then stop
-
 
 return, magnitude
 end
